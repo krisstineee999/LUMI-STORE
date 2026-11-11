@@ -1,3 +1,4 @@
+
 const products = [
     {
         name: "ქალის პერანგი",
@@ -40,10 +41,15 @@ const products = [
 const productList = document.getElementById("product-list");
 const cartCount = document.getElementById("cart-count");
 const searchInput = document.getElementById("search");
+const cartButton = document.getElementById("cart-button");
+const cartBox = document.getElementById("cart-box");
+const cartItems = document.getElementById("cart-items");
+const cartTotal = document.getElementById("cart-total");
+const closeCart = document.getElementById("close-cart");
 
-let cart = 0;
+let cart = [];
+
 function showProducts(productArray) {
-
     productList.innerHTML = "";
 
     if (productArray.length === 0) {
@@ -52,31 +58,118 @@ function showProducts(productArray) {
     }
 
     productArray.forEach(function(product) {
-
         const card = document.createElement("div");
-
         card.className = "product-card";
 
         card.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <h3>${product.name}</h3>
             <p>ფასი: ${product.price} ₾</p>
-            <button onclick="addToCart()">კალათაში დამატება</button>
+            <button class="add-button">კალათაში დამატება</button>
         `;
+
+        card.querySelector(".add-button").addEventListener("click", function() {
+            addToCart(product);
+        });
 
         productList.appendChild(card);
     });
 }
-function addToCart() {
 
-    cart++;
+function addToCart(product) {
+    const existingProduct = cart.find(function(item) {
+        return item.name === product.name;
+    });
 
-    cartCount.textContent = cart;
+    if (existingProduct) {
+        existingProduct.quantity++;
+    } else {
+        cart.push({
+            ...product,
+            quantity: 1
+        });
+    }
 
-    alert("პროდუქტი დაემატა კალათაში!");
+    updateCart();
 }
-function filterProducts(category) {
 
+function updateCart() {
+    cartItems.innerHTML = "";
+
+    let total = 0;
+    let count = 0;
+
+    cart.forEach(function(item) {
+        total += item.price * item.quantity;
+        count += item.quantity;
+
+        const itemElement = document.createElement("div");
+        itemElement.className = "cart-item";
+
+        itemElement.innerHTML = `
+            <p><strong>${item.name}</strong></p>
+            <p>${item.price} ₾ × ${item.quantity}</p>
+            <button class="minus-button">−</button>
+            <button class="plus-button">+</button>
+            <button class="remove-button">წაშლა</button>
+        `;
+
+        itemElement.querySelector(".minus-button").addEventListener("click", function() {
+            changeQuantity(item.name, -1);
+        });
+
+        itemElement.querySelector(".plus-button").addEventListener("click", function() {
+            changeQuantity(item.name, 1);
+        });
+
+        itemElement.querySelector(".remove-button").addEventListener("click", function() {
+            removeFromCart(item.name);
+        });
+
+        cartItems.appendChild(itemElement);
+    });
+
+    if (cart.length === 0) {
+        cartItems.innerHTML = "<p>კალათა ცარიელია.</p>";
+    }
+
+    cartCount.textContent = count;
+    cartTotal.textContent = total;
+}
+
+function changeQuantity(productName, amount) {
+    const item = cart.find(function(product) {
+        return product.name === productName;
+    });
+
+    if (item) {
+        item.quantity += amount;
+
+        if (item.quantity <= 0) {
+            removeFromCart(productName);
+        } else {
+            updateCart();
+        }
+    }
+}
+
+function removeFromCart(productName) {
+    cart = cart.filter(function(item) {
+        return item.name !== productName;
+    });
+
+    updateCart();
+}
+
+cartButton.addEventListener("click", function() {
+    cartBox.classList.toggle("active");
+});
+
+closeCart.addEventListener("click", function() {
+    cartBox.classList.remove("active");
+});
+
+function filterProducts(category) {
     let filteredProducts;
 
     if (category === "ყველა") {
@@ -86,10 +179,11 @@ function filterProducts(category) {
             return product.category === category;
         });
     }
+
     showProducts(filteredProducts);
 }
-searchInput.addEventListener("input", function() {
 
+searchInput.addEventListener("input", function() {
     const searchText = searchInput.value.toLowerCase();
 
     const filteredProducts = products.filter(function(product) {
@@ -98,12 +192,33 @@ searchInput.addEventListener("input", function() {
 
     showProducts(filteredProducts);
 });
+
 const contactForm = document.getElementById("contact-form");
 
 contactForm.addEventListener("submit", function(event) {
     event.preventDefault();
+
     const name = document.getElementById("name").value;
+
     alert("მადლობა, " + name + "! თქვენი შეტყობინება მიღებულია.");
+
     contactForm.reset();
 });
+
+const menuToggle = document.getElementById("menu-toggle");
+const navMenu = document.getElementById("nav-menu");
+
+menuToggle.addEventListener("click", function() {
+    navMenu.classList.toggle("active");
+});
+
+const navLinks = navMenu.querySelectorAll("a");
+
+navLinks.forEach(function(link) {
+    link.addEventListener("click", function() {
+        navMenu.classList.remove("active");
+    });
+});
+
 showProducts(products);
+updateCart();
