@@ -4,20 +4,23 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: Arial, sans-serif;
     background: #fff;
     color: #222;
 }
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 7%;
     background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    position: relative;
-    z-index: 100;
 }
 
 .logo {
@@ -26,19 +29,19 @@ header {
     letter-spacing: 2px;
 }
 
-nav {
+header nav {
     display: flex;
     gap: 25px;
 }
 
-nav a {
+header nav a {
     text-decoration: none;
     color: #222;
     font-size: 15px;
     transition: 0.3s;
 }
 
-nav a:hover {
+header nav a:hover {
     color: #a47777;
 }
 
@@ -55,18 +58,54 @@ nav a:hover {
     color: white;
     border: none;
     padding: 10px 16px;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 15px;
+    border-radius: 4px;
 }
 
 .hero {
-    min-height: 500px;
+    position: relative;
+    min-height: 550px;
+    overflow: hidden;
     display: flex;
     align-items: center;
-    padding: 60px 10%;
-    background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400") center/cover;
+    background: #222;
+}
+
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: 60px;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease;
+}
+
+.hero-slide.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hero-slide:nth-child(1) {
+    background-image: linear-gradient(90deg, rgba(0,0,0,0.65), rgba(0,0,0,0.1)), url("https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600");
+}
+
+.hero-slide:nth-child(2) {
+    background-image: linear-gradient(90deg, rgba(0,0,0,0.65), rgba(0,0,0,0.1)), url("https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?w=1600");
+}
+
+.hero-slide:nth-child(3) {
+    background-image: linear-gradient(90deg, rgba(0,0,0,0.65), rgba(0,0,0,0.1)), url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600");
+}
+
+.hero-text {
     color: white;
+    max-width: 550px;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-text h1 {
@@ -81,17 +120,62 @@ nav a:hover {
 
 .shop-button {
     display: inline-block;
-    padding: 13px 25px;
     background: white;
     color: #222;
+    padding: 13px 25px;
     text-decoration: none;
-    border-radius: 4px;
+    font-weight: bold;
     transition: 0.3s;
 }
 
 .shop-button:hover {
     background: #a47777;
     color: white;
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.slider-arrow.prev {
+    left: 20px;
+}
+
+.slider-arrow.next {
+    right: 20px;
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+}
+
+.slider-dot {
+    width: 11px;
+    height: 11px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+}
+
+.slider-dot.active {
+    background: white;
 }
 
 .shop {
@@ -102,7 +186,7 @@ nav a:hover {
 .shop h2,
 .about h2,
 .contact h2 {
-    font-size: 32px;
+    font-size: 30px;
     margin-bottom: 15px;
 }
 
@@ -112,11 +196,11 @@ nav a:hover {
 }
 
 .filters {
+    margin-bottom: 25px;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 25px;
+    flex-wrap: wrap;
 }
 
 .filters button {
@@ -148,15 +232,14 @@ nav a:hover {
 }
 
 .product-card {
-    background: white;
+    background: #fff;
     padding: 15px;
-    border: 1px solid #eee;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
     transition: 0.3s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .product-card img {
@@ -177,9 +260,8 @@ nav a:hover {
     background: #222;
     color: white;
     border: none;
-    padding: 12px 18px;
+    padding: 11px 18px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 .product-card button:hover {
@@ -187,16 +269,16 @@ nav a:hover {
 }
 
 .about {
-    padding: 70px 15%;
+    padding: 70px 10%;
     text-align: center;
-    background: #f8f5f3;
+    background: #f7f4f2;
 }
 
 .about p {
-    max-width: 700px;
-    margin: auto;
+    max-width: 750px;
+    margin: 20px auto 0;
     line-height: 1.8;
-    color: #666;
+    color: #555;
 }
 
 .contact {
@@ -216,8 +298,7 @@ nav a:hover {
 #contact-form textarea {
     padding: 14px;
     border: 1px solid #ddd;
-    font-family: Arial, sans-serif;
-    outline: none;
+    font-family: inherit;
 }
 
 #contact-form textarea {
@@ -231,7 +312,6 @@ nav a:hover {
     color: white;
     border: none;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 #contact-form button:hover {
@@ -239,26 +319,25 @@ nav a:hover {
 }
 
 footer {
-    padding: 25px;
-    text-align: center;
     background: #222;
     color: white;
+    text-align: center;
+    padding: 25px;
 }
 
 .cart-box {
     display: none;
-    background: white;
-    padding: 25px;
-    width: 320px;
+    position: fixed;
+    top: 85px;
+    right: 20px;
+    width: 340px;
     max-width: calc(100% - 40px);
     max-height: 75vh;
     overflow-y: auto;
-    position: fixed;
-    top: 90px;
-    right: 20px;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    border-radius: 10px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    z-index: 20;
 }
 
 .cart-box.active {
@@ -269,35 +348,33 @@ footer {
     margin-bottom: 20px;
 }
 
-.cart-box h3 {
-    margin-top: 20px;
-}
-
 .cart-item {
     border-bottom: 1px solid #ddd;
     padding: 12px 0;
 }
 
+.cart-item p {
+    margin-bottom: 8px;
+}
+
 .cart-item button,
 #close-cart {
-    padding: 7px 10px;
-    margin: 4px 2px;
-    cursor: pointer;
+    padding: 7px 12px;
+    margin: 5px 3px 0 0;
     border: none;
     background: #222;
     color: white;
-    border-radius: 4px;
+    cursor: pointer;
 }
 
-#close-cart {
-    margin-top: 15px;
+.cart-box h3 {
+    margin: 20px 0 10px;
 }
 
 @media (max-width: 768px) {
     header {
         flex-wrap: wrap;
-        gap: 15px;
-        padding: 15px 5%;
+        position: sticky;
     }
 
     .menu-toggle {
@@ -320,8 +397,25 @@ footer {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .hero {
+        min-height: 450px;
+    }
+
+    .hero-slide {
+        padding: 35px;
+    }
+
     .hero-text h1 {
-        font-size: 36px;
+        font-size: 34px;
+    }
+
+    .hero-text p {
+        font-size: 16px;
+    }
+
+    .slider-arrow {
+        width: 34px;
+        height: 34px;
     }
 }
 
@@ -332,17 +426,14 @@ footer {
 
     .hero {
         min-height: 400px;
-        padding: 40px 7%;
+    }
+
+    .hero-slide {
+        padding: 25px;
     }
 
     .hero-text h1 {
-        font-size: 30px;
-    }
-
-    .shop h2,
-    .about h2,
-    .contact h2 {
-        font-size: 26px;
+        font-size: 29px;
     }
 
     .logo {
@@ -351,6 +442,10 @@ footer {
 
     .cart-box {
         right: 10px;
-        top: 80px;
+        top: 75px;
+    }
+
+    .product-card img {
+        height: 320px;
     }
 }

@@ -220,5 +220,58 @@ navLinks.forEach(function(link) {
     });
 });
 
+const slides = document.querySelectorAll(".hero-slide");
+const nextSlide = document.getElementById("next-slide");
+const prevSlide = document.getElementById("prev-slide");
+const sliderDots = document.getElementById("slider-dots");
+
+let currentSlide = 0;
+let sliderInterval;
+
+slides.forEach(function(slide, index) {
+    const dot = document.createElement("button");
+    dot.className = "slider-dot";
+    dot.setAttribute("aria-label", "სლაიდი " + (index + 1));
+
+    dot.addEventListener("click", function() {
+        showSlide(index);
+        startSlider();
+    });
+
+    sliderDots.appendChild(dot);
+});
+
+const dots = sliderDots.querySelectorAll(".slider-dot");
+
+function showSlide(index) {
+    slides[currentSlide].classList.remove("active");
+    dots[currentSlide].classList.remove("active");
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add("active");
+    dots[currentSlide].classList.add("active");
+}
+
+function startSlider() {
+    clearInterval(sliderInterval);
+
+    sliderInterval = setInterval(function() {
+        showSlide(currentSlide + 1);
+    }, 4000);
+}
+
+nextSlide.addEventListener("click", function() {
+    showSlide(currentSlide + 1);
+    startSlider();
+});
+
+prevSlide.addEventListener("click", function() {
+    showSlide(currentSlide - 1);
+    startSlider();
+});
+
 showProducts(products);
 updateCart();
+showSlide(0);
+startSlider();
