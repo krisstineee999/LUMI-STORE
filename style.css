@@ -73,17 +73,14 @@ header nav a:hover {
 .hero {
     position: relative;
     width: 100%;
-    min-height: 550px;
+    height: 550px;
     overflow: hidden;
     background: #222;
-    display: block;
 }
 
 .hero-slide {
     position: absolute;
     inset: 0;
-    width: 100%;
-    min-height: 550px;
     display: flex;
     align-items: center;
     padding: 60px 90px;
@@ -149,8 +146,8 @@ header nav a:hover {
 }
 
 .hero > .slider-arrow {
-    position: absolute !important;
-    top: 50% !important;
+    position: absolute;
+    top: 50%;
     transform: translateY(-50%);
     z-index: 5;
     width: 42px;
@@ -168,13 +165,13 @@ header nav a:hover {
 }
 
 .hero > .slider-arrow.prev {
-    left: 20px !important;
-    right: auto !important;
+    left: 20px;
+    right: auto;
 }
 
 .hero > .slider-arrow.next {
-    right: 20px !important;
-    left: auto !important;
+    right: 20px;
+    left: auto;
 }
 
 .slider-dots {
@@ -204,15 +201,21 @@ section {
     padding: 70px 7%;
 }
 
-#shop h2,
-#about h2,
-#contact h2 {
+.shop h2,
+.about h2,
+.contact h2 {
     text-align: center;
     font-size: 32px;
-    margin-bottom: 35px;
+    margin-bottom: 20px;
 }
 
-.filter-buttons {
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.filters {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -220,7 +223,7 @@ section {
     margin-bottom: 25px;
 }
 
-.filter-buttons button {
+.filters button {
     padding: 10px 20px;
     border: 1px solid #222;
     background: transparent;
@@ -229,13 +232,13 @@ section {
     transition: 0.3s;
 }
 
-.filter-buttons button:hover,
-.filter-buttons button.active {
+.filters button:hover,
+.filters button.active {
     background: #222;
     color: white;
 }
 
-.search-box {
+#search {
     display: block;
     width: 100%;
     max-width: 400px;
@@ -246,7 +249,6 @@ section {
     font-size: 15px;
 }
 
-#product-list,
 .products {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -286,8 +288,7 @@ section {
     color: #777;
 }
 
-.product-info button,
-.add-to-cart {
+.product-info button {
     width: 100%;
     padding: 12px;
     border: none;
@@ -298,9 +299,14 @@ section {
     transition: 0.3s;
 }
 
-.product-info button:hover,
-.add-to-cart:hover {
+.product-info button:hover {
     background: #a47762;
+}
+
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #777;
 }
 
 #about {
@@ -379,6 +385,10 @@ footer {
     display: none;
 }
 
+.cart-box.active {
+    display: block;
+}
+
 .cart-box h2 {
     margin-bottom: 20px;
 }
@@ -387,8 +397,27 @@ footer {
     margin: 20px 0;
 }
 
-.cart-box button {
+.cart-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item p {
+    margin-bottom: 8px;
+}
+
+.cart-item button {
+    margin: 4px 3px 4px 0;
+    padding: 6px 10px;
+    border: none;
+    background: #eee;
     cursor: pointer;
+    border-radius: 3px;
+}
+
+.cart-item .remove-button {
+    background: #222;
+    color: white;
 }
 
 #close-cart {
@@ -398,10 +427,10 @@ footer {
     color: white;
     border: none;
     border-radius: 3px;
+    cursor: pointer;
 }
 
 @media (max-width: 900px) {
-    #product-list,
     .products {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -450,9 +479,8 @@ footer {
         font-size: 13px;
     }
 
-    .hero,
-    .hero-slide {
-        min-height: 430px;
+    .hero {
+        height: 430px;
     }
 
     .hero-slide {
@@ -475,18 +503,17 @@ footer {
     }
 
     .hero > .slider-arrow.prev {
-        left: 10px !important;
+        left: 10px;
     }
 
     .hero > .slider-arrow.next {
-        right: 10px !important;
+        right: 10px;
     }
 
     section {
         padding: 50px 5%;
     }
 
-    #product-list,
     .products {
         grid-template-columns: 1fr;
     }
@@ -495,9 +522,9 @@ footer {
         height: 320px;
     }
 
-    #shop h2,
-    #about h2,
-    #contact h2 {
+    .shop h2,
+    .about h2,
+    .contact h2 {
         font-size: 27px;
     }
 

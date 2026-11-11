@@ -39,8 +39,9 @@ const products = [
 ];
 
 const productList = document.getElementById("product-list");
-const cartCount = document.getElementById("cart-count");
 const searchInput = document.getElementById("search");
+const filterButtons = document.querySelectorAll(".filter-button");
+const cartCount = document.getElementById("cart-count");
 const cartButton = document.getElementById("cart-button");
 const cartBox = document.getElementById("cart-box");
 const cartItems = document.getElementById("cart-items");
@@ -48,24 +49,36 @@ const cartTotal = document.getElementById("cart-total");
 const closeCart = document.getElementById("close-cart");
 
 let cart = [];
+let selectedCategory = "ყველა";
 
-function showProducts(productArray) {
+function showProducts() {
+    const searchText = searchInput.value.toLowerCase();
+
+    const filteredProducts = products.filter(function(product) {
+        const matchesCategory = selectedCategory === "ყველა" || product.category === selectedCategory;
+        const matchesSearch = product.name.toLowerCase().includes(searchText);
+
+        return matchesCategory && matchesSearch;
+    });
+
     productList.innerHTML = "";
 
-    if (productArray.length === 0) {
-        productList.innerHTML = "<p>პროდუქტი ვერ მოიძებნა.</p>";
+    if (filteredProducts.length === 0) {
+        productList.innerHTML = '<p class="no-products">პროდუქტი ვერ მოიძებნა.</p>';
         return;
     }
 
-    productArray.forEach(function(product) {
+    filteredProducts.forEach(function(product) {
         const card = document.createElement("div");
         card.className = "product-card";
 
         card.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
-            <h3>${product.name}</h3>
-            <p>ფასი: ${product.price} ₾</p>
-            <button class="add-button">კალათაში დამატება</button>
+            <div class="product-info">
+                <h3>${product.name}</h3>
+                <p>ფასი: ${product.price} ₾</p>
+                <button class="add-button">კალათაში დამატება</button>
+            </div>
         `;
 
         card.querySelector(".add-button").addEventListener("click", function() {
@@ -75,6 +88,21 @@ function showProducts(productArray) {
         productList.appendChild(card);
     });
 }
+
+filterButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        selectedCategory = button.dataset.category;
+
+        filterButtons.forEach(function(item) {
+            item.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        showProducts();
+    });
+});
+
+searchInput.addEventListener("input", showProducts);
 
 function addToCart(product) {
     const existingProduct = cart.find(function(item) {
@@ -142,14 +170,14 @@ function changeQuantity(productName, amount) {
         return product.name === productName;
     });
 
-    if (item) {
-        item.quantity += amount;
+    if (!item) return;
 
-        if (item.quantity <= 0) {
-            removeFromCart(productName);
-        } else {
-            updateCart();
-        }
+    item.quantity += amount;
+
+    if (item.quantity <= 0) {
+        removeFromCart(productName);
+    } else {
+        updateCart();
     }
 }
 
@@ -167,30 +195,6 @@ cartButton.addEventListener("click", function() {
 
 closeCart.addEventListener("click", function() {
     cartBox.classList.remove("active");
-});
-
-function filterProducts(category) {
-    let filteredProducts;
-
-    if (category === "ყველა") {
-        filteredProducts = products;
-    } else {
-        filteredProducts = products.filter(function(product) {
-            return product.category === category;
-        });
-    }
-
-    showProducts(filteredProducts);
-}
-
-searchInput.addEventListener("input", function() {
-    const searchText = searchInput.value.toLowerCase();
-
-    const filteredProducts = products.filter(function(product) {
-        return product.name.toLowerCase().includes(searchText);
-    });
-
-    showProducts(filteredProducts);
 });
 
 const contactForm = document.getElementById("contact-form");
@@ -228,8 +232,28 @@ const sliderDots = document.getElementById("slider-dots");
 let currentSlide = 0;
 let sliderInterval;
 
+function showSlide(index) {
+    if (slides.length === 0) return;
+
+    slides[currentSlide].classList.remove("active");
+
+    const dots = sliderDots.querySelectorAll(".slider-dot");
+    if (dots[currentSlide]) {
+        dots[currentSlide].classList.remove("active");
+    }
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add("active");
+
+    if (dots[currentSlide]) {
+        dots[currentSlide].classList.add("active");
+    }
+}
+
 slides.forEach(function(slide, index) {
     const dot = document.createElement("button");
+
     dot.className = "slider-dot";
     dot.setAttribute("aria-label", "სლაიდი " + (index + 1));
 
@@ -240,18 +264,6 @@ slides.forEach(function(slide, index) {
 
     sliderDots.appendChild(dot);
 });
-
-const dots = sliderDots.querySelectorAll(".slider-dot");
-
-function showSlide(index) {
-    slides[currentSlide].classList.remove("active");
-    dots[currentSlide].classList.remove("active");
-
-    currentSlide = (index + slides.length) % slides.length;
-
-    slides[currentSlide].classList.add("active");
-    dots[currentSlide].classList.add("active");
-}
 
 function startSlider() {
     clearInterval(sliderInterval);
@@ -271,7 +283,7 @@ prevSlide.addEventListener("click", function() {
     startSlider();
 });
 
-showProducts(products);
+showProducts();
 updateCart();
 showSlide(0);
 startSlider();

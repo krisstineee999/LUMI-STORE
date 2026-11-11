@@ -10,9 +10,7 @@
 <body>
     <header>
         <div class="logo">LUMI STORE</div>
-        <button class="menu-toggle" id="menu-toggle" aria-label="მენიუს გახსნა">
-            ☰
-        </button>
+        <button class="menu-toggle" id="menu-toggle" aria-label="მენიუს გახსნა">☰</button>
         <nav id="nav-menu">
             <a href="#home">მთავარი</a>
             <a href="#shop">მაღაზია</a>
@@ -20,60 +18,57 @@
             <a href="#contact">კონტაქტი</a>
         </nav>
         <div class="cart">
-            <button id="cart-button">
-                🛍️ კალათა: <span id="cart-count">0</span>
-            </button>
+            <button id="cart-button">🛍️ კალათა: <span id="cart-count">0</span></button>
         </div>
     </header>
+
     <div class="cart-box" id="cart-box">
         <h2>ჩემი კალათა</h2>
         <div id="cart-items"></div>
         <h3>ჯამი: <span id="cart-total">0</span> ₾</h3>
         <button id="close-cart">დახურვა</button>
     </div>
+
     <section class="hero" id="home">
-    <div class="hero-slide active">
-        <div class="hero-text">
-            <h1>შენი სტილი,<br>შენი არჩევანი</h1>
-            <p>აღმოაჩინე ახალი კოლექცია LUMI STORE-ში.</p>
-            <a href="#shop" class="shop-button">შეიძინე ახლა</a>
+        <div class="hero-slide active">
+            <div class="hero-text">
+                <h1>შენი სტილი,<br>შენი არჩევანი</h1>
+                <p>აღმოაჩინე ახალი კოლექცია LUMI STORE-ში.</p>
+                <a href="#shop" class="shop-button">შეიძინე ახლა</a>
+            </div>
         </div>
-    </div>
-    <div class="hero-slide">
-        <div class="hero-text">
-            <h1>ახალი კოლექცია</h1>
-            <p>შეარჩიე შენი საყვარელი სტილი.</p>
-            <a href="#shop" class="shop-button">აღმოაჩინე</a>
+        <div class="hero-slide">
+            <div class="hero-text">
+                <h1>ახალი კოლექცია</h1>
+                <p>შეარჩიე შენი საყვარელი სტილი.</p>
+                <a href="#shop" class="shop-button">აღმოაჩინე</a>
+            </div>
         </div>
-    </div>
-    <div class="hero-slide">
-        <div class="hero-text">
-            <h1>შეიქმენი შენი სტილი</h1>
-            <p>იპოვე ნივთები, რომლებიც შენს ხასიათს გამოხატავს.</p>
-            <a href="#shop" class="shop-button">შეიძინე ახლა</a>
+        <div class="hero-slide">
+            <div class="hero-text">
+                <h1>შეიქმენი შენი სტილი</h1>
+                <p>იპოვე ნივთები, რომლებიც შენს ხასიათს გამოხატავს.</p>
+                <a href="#shop" class="shop-button">შეიძინე ახლა</a>
+            </div>
         </div>
-    </div>
-    <button class="slider-arrow prev" id="prev-slide">❮</button>
-    <button class="slider-arrow next" id="next-slide">❯</button>
-    <div class="slider-dots" id="slider-dots"></div>
-</section>
+        <button class="slider-arrow prev" id="prev-slide" aria-label="წინა სლაიდი">❮</button>
+        <button class="slider-arrow next" id="next-slide" aria-label="შემდეგი სლაიდი">❯</button>
+        <div class="slider-dots" id="slider-dots"></div>
+    </section>
+
     <section class="shop" id="shop">
         <h2>ჩვენი პროდუქცია</h2>
         <p class="subtitle">შეარჩიე შენი საყვარელი ნივთები</p>
         <div class="filters">
-            <button onclick="filterProducts('ყველა')">ყველა</button>
-            <button onclick="filterProducts('ტანსაცმელი')">ტანსაცმელი</button>
-            <button onclick="filterProducts('ფეხსაცმელი')">ფეხსაცმელი</button>
-            <button onclick="filterProducts('აქსესუარები')">აქსესუარები</button>
+            <button class="filter-button active" data-category="ყველა">ყველა</button>
+            <button class="filter-button" data-category="ტანსაცმელი">ტანსაცმელი</button>
+            <button class="filter-button" data-category="ფეხსაცმელი">ფეხსაცმელი</button>
+            <button class="filter-button" data-category="აქსესუარები">აქსესუარები</button>
         </div>
-        <input
-            type="text"
-            id="search"
-            placeholder="მოძებნე პროდუქტი..."
-        >
+        <input type="text" id="search" placeholder="მოძებნე პროდუქტი...">
         <div class="products" id="product-list"></div>
-
     </section>
+
     <section class="about" id="about">
         <h2>ჩვენს შესახებ</h2>
         <p>
@@ -83,29 +78,17 @@
             უფრო განსაკუთრებული გავხადოთ.
         </p>
     </section>
+
     <section class="contact" id="contact">
         <h2>დაგვიკავშირდი</h2>
         <form id="contact-form">
-            <input
-                type="text"
-                id="name"
-                placeholder="შენი სახელი"
-                required
-            >
-            <input
-                type="email"
-                id="email"
-                placeholder="ელფოსტა"
-                required
-            >
-            <textarea
-                id="message"
-                placeholder="შეტყობინება..."
-                required
-            ></textarea>
+            <input type="text" id="name" placeholder="შენი სახელი" required>
+            <input type="email" id="email" placeholder="ელფოსტა" required>
+            <textarea id="message" placeholder="შეტყობინება..." required></textarea>
             <button type="submit">გაგზავნა</button>
         </form>
     </section>
+
     <footer>
         <p>© 2026 LUMI STORE. ყველა უფლება დაცულია.</p>
     </footer>
